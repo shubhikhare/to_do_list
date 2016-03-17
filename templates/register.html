@@ -1,0 +1,19 @@
+<html>
+	<head>
+			<title>Sign Up</title>
+		</head>
+	<body style="text-align:center", background="/static/images/1121.png">
+		<h1>Registration page</h1>
+		<form method="POST">
+			{% csrf_token %}
+			<label><b><em style="font-family: Arial;">Username:</em></b></label>
+			<input type="text" name="username" placeholder="Username"><br><br>
+			<label><b><em style="font-family: Arial;">Email:</em></b></label>
+			<input type="email" name="email" placeholder="Email"><br><br>
+			<label><b><em style="font-family: Arial;">Password:</em></b></label>
+			<input type="password" name="password" placeholder="******"><br><br>
+			<input type="submit" value="Register!">
+		</form>
+	</body>
+	</html>
+	
