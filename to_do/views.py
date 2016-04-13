@@ -29,7 +29,7 @@ def signup(request):
 		return render(request, "register.html")
 
 def login(request):
-	if request.user.is_authenticated():
+	if not request.user.is_authenticated():
 		if request.method == "POST":
 			username=request.POST['username']
 			password=request.POST['password']
@@ -38,7 +38,7 @@ def login(request):
 				if user.is_active:
 					print "loggedin"
 					auth.login(request,user)
-					return HttpResponseRedirect("/weather")
+					return HttpResponseRedirect("/display")
 			else:
 				print "none"
 				return HttpResponseRedirect("/register")
@@ -48,6 +48,22 @@ def login(request):
 	else:
 		return HttpResponseRedirect("/")
 
+def display(request):
+	if request.user.is_authenticated():
+		todolist=Todo_List.objects.filter(user=request.user)
+		return render(request, "display.html", {'todolist':todolist})
+	else:
+		return ('/Please Login/', "index.html")
+
+def todo(request):
+	details=Todo_List(title=title,description=description)
+	details.save()
+
+def edit(request):
+	details=Todo_List(title=title,description=description)
+	details.objects
+	Todo_List.objects.filter(pk=details.id).update(title='title',description='description')
+	details.save()
 
 def logout(request):
 	return render(request, "index.html")

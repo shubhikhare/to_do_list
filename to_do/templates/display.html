@@ -1,0 +1,15 @@
+<DOCTYPE=HTML>
+<html>
+	<head>
+		<title>Task Lister</title>
+	</head>
+	<body background="/static/images/images.jpg">
+		<ul>
+		{% if user %}
+		<li><a href="/logout"><b><em style="color: black; font-size: 20px"> Logout </em></b></a></li>
+		<li><a href="/todo"><b><em style="color: black; font-size: 20px"> Add Task </em></b></a></li>
+		{% endif %}
+	</ul>
+	<a href="{{ user.todolist }}"></a>
+	</body>
+</html>

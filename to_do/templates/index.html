@@ -1,0 +1,31 @@
+<DOCTYPE=HTML>
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="/static/css/stylesheet.css"/>
+		<title>Task Lister | HOME</title>
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+		<!-- Latest compiled JavaScript -->
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		<br>
+		<div id="header">
+			<div id="navbar">
+				<ul>
+				{% if user %}
+				<li><a href="/register" title=""><b><em> Sign Up </em></b></a></li>
+				<li><a href="/login" title=""><b><em> Login </em></b></a></li>
+				{% endif %}
+				</ul>
+			</div>
+		</div>
+		<br>
+		<br>
+		<br>
+		<br>
+		<h1 id="n"><b><em><center style="color: black; font-size: 70px">TASK LISTER!!!!!</center></em></b></h1>
+	</body>
+</html>
