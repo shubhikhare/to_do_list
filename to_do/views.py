@@ -5,7 +5,6 @@ from django.contrib.auth import authenticate, login
 from django.contrib import auth
 from to_do.models import Todo_List
 from django.db import IntegrityError
-from .forms import TodoForm
 # Create your views here.
 
 def  home(request):
@@ -55,20 +54,20 @@ def display(request):
 		todolist=Todo_List.objects.filter(user=request.user)
 		return render(request, "display.html", {'todolist':todolist})
 	else:
-		return ('/Please Login/', "index.html")
+		return render(request, "index.html")
 
 def addtask(request):
 	form=TodoForm()
 	if request.method=='POST':
-		form=TodoForm(request.POST)
-		if form.is_valid():
-			form.save()
 		try:
-			details=Todo_List(title='title',description='description')
+			title=request.POST['title']
+			description=request.POST['description']
+			details=Todo_List.objects.create(title=title,description=description,user=request.user)
 			details.save()
 		except IntegrityError as e:
 			return render_to_response("display.html")
-		
+
+		todolist=Todo_List.objects.filter(user=request.user)
 		return render(request, "display.html", {'todolist':todolist})
 	elif request.method=="GET":
 		return render(request, "todo.html")
