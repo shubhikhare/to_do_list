@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import auth
 from to_do.models import Todo_List
+from django.db import IntegrityError
 # Create your views here.
 
 def  home(request):
@@ -55,9 +56,15 @@ def display(request):
 	else:
 		return ('/Please Login/', "index.html")
 
+def addtask(request):
+	return render(request, "todo.html")
+
 def todo(request):
-	details=Todo_List(title=title,description=description)
-	details.save()
+	try:
+		details=Todo_List(title='title',description='description')
+		details.save()
+	except IntegrityError as e:
+		return render_to_response("display.html")
 
 def edit(request):
 	details=Todo_List(title=title,description=description)
