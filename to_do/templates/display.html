@@ -12,8 +12,10 @@
 	</ul>
 	{% for display in todolist %}
 		<ul>
-			<a href="/view">{{ display.title }}</a>
+			<b><em>{{ display.title }}</em></b>
 			<p>{{ display.description }}</p>
+			<a href="/edit">Edit</a>
+			<a href="/delete/display.id">Delete</a>
 		</ul>
 	{% endfor %}
 	</body>

@@ -1,4 +1,4 @@
-from django.shortcuts import render,render_to_response
+from django.shortcuts import render,render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
@@ -52,17 +52,13 @@ def login(request):
 
 def display(request):
 	if request.user.is_authenticated():
-		todolist=Todo_List.objects.filter(user=request.user)
+		todolist=Todo_List.objects.filter(user=request.user.id)
 		return render(request, "display.html", {'todolist':todolist})
 	else:
-		return render(request, "index.html")
+		return HttpResponseRedirect("/")
 
 def addtask(request):
-	form=TodoForm()
 	if request.method=='POST':
-		form=TodoForm(request.POST)
-		if form.is_valid():
-			form.save()
 		try:
 			title=request.POST['title']
 			description=request.POST['description']
@@ -75,16 +71,6 @@ def addtask(request):
 		return render(request, "display.html", {'todolist':todolist})
 	elif request.method=="GET":
 		return render(request, "todo.html")
-
-def view(request):
-	form=TodoForm()
-	if request.method=='POST':
-		form=TodoForm(request.POST)
-		if form.is_valid():
-			form.save()
-		return render(request, "task.html", {'form':form})
-	elif request.method=="GET":
-		return render(request, "task.html")
 
 def edit(request):
 	form=TodoForm()
@@ -110,8 +96,9 @@ def changes(request):
 	todolist=Todo_List.objects.filter(user=request.user)
 	return render(request, "display.html", {'todolist':todolist})
 	
-def delete(request):
-
+def delete(request, t):
+	u=request.user.id
+	Todo_List.objects.filter(pk=u).delete()
 	todolist=Todo_List.objects.filter(user=request.user)
 	return render(request, "display.html", {'todolist':todolist})
 
