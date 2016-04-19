@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib import auth
 from to_do.models import Todo_List
 from django.db import IntegrityError
+from .forms import TodoForm
 # Create your views here.
 
 def  home(request):
@@ -59,6 +60,9 @@ def display(request):
 def addtask(request):
 	form=TodoForm()
 	if request.method=='POST':
+		form=TodoForm(request.POST)
+		if form.is_valid():
+			form.save()
 		try:
 			title=request.POST['title']
 			description=request.POST['description']
@@ -72,11 +76,44 @@ def addtask(request):
 	elif request.method=="GET":
 		return render(request, "todo.html")
 
-#def edit(request):
-#	details=Todo_List(title=title,description=description)
-#	details.objects
-#	Todo_List.objects.filter(pk=details.id).update(title='title',description='description')
-#	details.save()
+def view(request):
+	form=TodoForm()
+	if request.method=='POST':
+		form=TodoForm(request.POST)
+		if form.is_valid():
+			form.save()
+		return render(request, "task.html", {'form':form})
+	elif request.method=="GET":
+		return render(request, "task.html")
+
+def edit(request):
+	form=TodoForm()
+	if request.method=='POST':
+		form=TodoForm(request.POST)
+		if form.is_valid():
+			form.save()
+		title=list(Todo_List.objects.values)
+		#description=list(Todo_List.objects.values)
+		return render(request, "task.html", {'title':form})
+	elif request.method=="GET":
+		return render(request, "task.html")
+
+def changes(request):
+	if request.method=='POST':
+		try:
+			title=request.POST['title']
+			description=request.POST['description']
+			Todo_List.objects.filter(pk=request.user).update(title=title,description=description)
+			details.save()
+		except IntegrityError as e:
+			return render_to_response("display.html")
+	todolist=Todo_List.objects.filter(user=request.user)
+	return render(request, "display.html", {'todolist':todolist})
+	
+def delete(request):
+
+	todolist=Todo_List.objects.filter(user=request.user)
+	return render(request, "display.html", {'todolist':todolist})
 
 def logout(request):
 	return render(request, "index.html")
