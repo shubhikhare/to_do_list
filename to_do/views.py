@@ -75,17 +75,6 @@ def addtask(request):
 def edit(request):
 	form=TodoForm()
 	if request.method=='POST':
-		form=TodoForm(request.POST)
-		if form.is_valid():
-			form.save()
-		title=list(Todo_List.objects.values)
-		#description=list(Todo_List.objects.values)
-		return render(request, "task.html", {'title':form})
-	elif request.method=="GET":
-		return render(request, "task.html")
-
-def changes(request):
-	if request.method=='POST':
 		try:
 			title=request.POST['title']
 			description=request.POST['description']
@@ -93,10 +82,17 @@ def changes(request):
 			details.save()
 		except IntegrityError as e:
 			return render_to_response("display.html")
-	todolist=Todo_List.objects.filter(user=request.user)
-	return render(request, "display.html", {'todolist':todolist})
-	
-def delete(request, t):
+		todolist=Todo_List.objects.filter(user=request.user)
+		return render(request, "display.html", {'todolist':todolist})
+	elif request.method=="GET":
+		if request.method=='POST':
+			form=TodoForm(request.POST)
+			if form.is_valid():
+				form.save()
+				form.cleaned_data
+		return render(request, "edit.html", {'form':form})
+		
+def delete(request):
 	u=request.user.id
 	Todo_List.objects.filter(pk=u).delete()
 	todolist=Todo_List.objects.filter(user=request.user)

@@ -10,7 +10,13 @@
 		{% endif %}
 	</ul>
 	<h1><b><em><center style="color: black; font-size: 50px"> TASK LISTER </center></em></b></h1>
-		
-		<a href="/changes">Save Changes</a>
+		<form method="POST" align="center">
+			{% csrf_token %}
+			<label><b>Title:</b></label>
+			<input type="text">{{title}}<br><br>
+			<label><b>Description:</b></label>
+			<input type="text">{{description}}<br><br>
+			<a href="/edit">Save Changes</a>
+		</form>
 	</body>
 </html>
